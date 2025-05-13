@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио Дениса Пустовойченко</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #f0f0f0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #00ffaa, #ff007a);
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        header h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            animation: fadeIn 1s ease-in;
+        }
+        header p {
+            font-size: 1.3em;
+            font-weight: 300;
+            opacity: 0.9;
+            animation: fadeIn 1.5s ease-in;
+        }
+        nav {
+            background: rgba(0, 0, 0, 0.95);
+            position: sticky;
+            top: 0;
+            padding: 15px 0;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        nav a {
+            color: #f0f0f0;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: 400;
+            position: relative;
+            transition: color 0.3s;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #00ffaa;
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s;
+        }
+        nav a:hover::after {
+            width: 100%;
+        }
+        nav a:hover {
+            color: #00ffaa;
+        }
+        .section {
+            padding: 80px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideIn 0.8s forwards;
+        }
+        .section:nth-child(odd) {
+            background: #151515;
+        }
+        .about, .contact {
+            text-align: center;
+        }
+        .about h2, .projects h2, .achievements h2, .contact h2 {
+            font-size: 3em;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #00ffaa, #ff007a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+        }
+        .projects {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            align-items: center;
+        }
+        .project-row {
+            display: flex;
+            gap: 0;
+            justify-content: center;
+            width: 100%;
+        }
+        .project {
+            background: #1c1c1c;
+            border-radius: 15px;
+            padding: 20px;
+            width: 500px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s, box-shadow 0.4s;
+            margin: 0;
+        }
+        .project:nth-child(odd) {
+            margin-right: auto;
+        }
+        .project:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(0, 255, 170, 0.5);
+        }
+        .project img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: transform 0.4s;
+            cursor: pointer;
+        }
+        .project:hover img {
+            transform: scale(1.1);
+        }
+        .project h3 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .project::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 255, 170, 0.2), rgba(255, 0, 122, 0.2));
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .project:hover::before {
+            opacity: 1;
+        }
+        .achievements {
+            text-align: center;
+        }
+        .achievement-group {
+            margin-bottom: 60px;
+        }
+        .achievement-group h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #00ffaa;
+        }
+        .carousel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            height: 400px;
+            overflow: hidden;
+        }
+        .carousel-item {
+            position: absolute;
+            transition: all 0.5s ease;
+        }
+        .carousel-item.left {
+            transform: translateX(-350px) scale(0.7);
+            opacity: 0.6;
+            filter: blur(5px);
+            z-index: 1;
+        }
+        .carousel-item.center {
+            transform: translateX(0) scale(1);
+            opacity: 1;
+            filter: none;
+            z-index: 2;
+            cursor: pointer;
+        }
+        .carousel-item.right {
+            transform: translateX(350px) scale(0.7);
+            opacity: 0.6;
+            filter: blur(5px);
+            z-index: 1;
+        }
+        .carousel-item img {
+            width: 300px;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .carousel-item.center:hover img {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 255, 170, 0.4);
+        }
+        .carousel-button {
+            background: none;
+            border: none;
+            color: #00ffaa;
+            font-size: 2em;
+            cursor: pointer;
+            position: absolute;
+            z-index: 3;
+            transition: transform 0.3s;
+        }
+        .carousel-button:hover {
+            transform: scale(1.2);
+        }
+        .carousel-button.prev {
+            left: 20px;
+        }
+        .carousel-button.next {
+            right: 20px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 2em;
+            cursor: pointer;
+        }
+        .contact p {
+            font-size: 1.2em;
+            margin: 15px 0;
+        }
+        .contact a {
+            color: #00ffaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .contact a:hover {
+            color: #ff007a;
+        }
+        footer {
+            background: #050505;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9em;
+        }
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #00ffaa, #ff007a);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.8em;
+            cursor: pointer;
+            display: none;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .scroll-top:hover {
+            transform: scale(1.1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 1200px) {
+            .project { width: 400px; }
+        }
+        @media (max-width: 900px) {
+            .project-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            .project {
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            .project:nth-child(odd) {
+                margin-right: 0;
+            }
+        }
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5em; }
+            header p { font-size: 1em; }
+            .carousel-item img { width: 200px; }
+            .carousel-item.left { transform: translateX(-220px) scale(0.7); }
+            .carousel-item.right { transform: translateX(220px) scale(0.7); }
+            .carousel-button { font-size: 1.5em; }
+            nav a { margin: 0 10px; font-size: 0.9em; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Пустовойченко Денис Сергеевич</h1>
+        <p>Студент: Амурского педагогического колледжа.<br>Специальность: Информационные системы и программирование.</p>
+    </header>
+    <nav>
+        <a href="#about">О себе</a>
+        <a href="#projects">Мои проекты</a>
+        <a href="#achievements">Достижения</a>
+        <a href="#contact">Контакты</a>
+    </nav>
+    <section id="about" class="section about">
+        <h2>О себе</h2>
+        <p>Меня зовут Денис, мой возраст 21. В настоящее время я учусь в Амурском педагогическом колледже и стремлюсь получить качественное образование. Моя большая страсть - спорт. Я занимаюсь спортом с детства. Я убежден, что спорт - это одно из самых ценных занятий в жизни человека. Независимо от выбранной профессии, я считаю, что важно находить занятия, которые приносят истинное удовольствие, так как это помогает нам развиваться и становиться лучшими версиями самих себя.</p>
+    </section>
+    <section id="projects" class="section projects">
+        <h2>Мои проекты</h2>
+        <div class="project-row">
+            <div class="project">
+                <img src="https://optim.tildacdn.pub/tild6663-3466-4462-b339-623761643736/-/resize/760x/-/format/webp/907f89af-f8cb-4e1e-9.jpg.webp" alt="Проект 1" loading="lazy">
+                <h3>Разработка приложения для базы данных с помощью Delphi 7</h3>
+            </div>
+            <div class="project">
+                <img src="https://optim.tildacdn.pub/tild3362-6339-4164-a561-623262653230/-/resize/760x/-/format/webp/6fb9eef4-df66-4fc8-9.jpg.webp" alt="Проект 2" loading="lazy">
+                <h3>Создание информационной системы в MS Access</h3>
+            </div>
+        </div>
+        <div class="project-row">
+            <div class="project">
+                <img src="https://optim.tildacdn.pub/tild6639-3763-4538-b536-613335623937/-/resize/586x/-/format/webp/57c52f63-927c-47af-8.jpg.webp" alt="Проект 3" loading="lazy">
+                <h3>Разработка клиентского приложения для базы данных в Microsoft Visual Studio</h3>
+            </div>
+            <div class="project">
+                <img src="https://optim.tildacdn.pub/tild3630-3964-4237-b663-396139653565/-/resize/760x/-/format/webp/1.jpg.webp" alt="Проект 4" loading="lazy">
+                <h3>Разработка веб-сайта для публикации научных статей</h3>
+            </div>
+        </div>
+    </section>
+    <section id="achievements" class="section achievements">
+        <h2>Достижения</h2>
+        <div class="achievement-group">
+            <h3>2 курс</h3>
+            <div class="carousel" data-course="2">
+                <button class="carousel-button prev" onclick="moveCarousel(this, -1)">←</button>
+                <div class="carousel-item left"><img src="https://optim.tildacdn.pub/tild6664-3831-4162-b039-333462656165/-/resize/447x/-/format/webp/1.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item center"><img src="https://optim.tildacdn.pub/tild3733-3137-4936-a264-373864313034/-/resize/447x/-/format/webp/2.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item right"><img src="https://optim.tildacdn.pub/tild3264-3638-4662-b737-616237393230/-/resize/447x/-/format/webp/3.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3836-3338-4736-b665-386261623961/-/resize/447x/-/format/webp/4.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3238-6365-4562-a135-353032653962/-/resize/447x/-/format/webp/6.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3937-6331-4466-b139-653839386531/-/resize/447x/-/format/webp/5.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6337-3836-4361-a230-663531383135/-/resize/447x/-/format/webp/7.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6264-3366-4530-a239-333166326136/-/resize/447x/-/format/webp/8.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3234-3631-4739-a635-656136623663/-/resize/447x/-/format/webp/9.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3862-3766-4836-b261-393038386332/-/resize/373x/-/format/webp/11.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3166-6436-4663-b366-623563313263/-/resize/447x/-/format/webp/10.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6534-3562-4733-a334-623734313135/-/resize/373x/-/format/webp/12.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3936-3165-4466-b762-626235323731/-/resize/447x/-/format/webp/14.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6664-3163-4233-b032-376431336237/-/resize/447x/-/format/webp/16.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3666-3037-4533-b137-636535323865/-/resize/373x/-/format/webp/15.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3832-6163-4530-b361-333565653166/-/resize/373x/-/format/webp/17.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6133-3931-4432-a637-303439643162/-/resize/373x/-/format/webp/20.png.webp" alt="Грамота 2 курс" loading="lazy"></div>
+                <button class="carousel-button next" onclick="moveCarousel(this, 1)">→</button>
+            </div>
+        </div>
+        <div class="achievement-group">
+            <h3>3 курс</h3>
+            <div class="carousel" data-course="3">
+                <button class="carousel-button prev" onclick="moveCarousel(this, -1)">←</button>
+                <div class="carousel-item left"><img src="https://optim.tildacdn.pub/tild3338-3031-4264-a465-343362333033/-/resize/373x/-/format/webp/21.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item center"><img src="https://optim.tildacdn.pub/tild6361-6366-4164-b261-373962333831/-/resize/373x/-/format/webp/22.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item right"><img src="https://optim.tildacdn.pub/tild3930-6364-4265-b737-383232653164/-/resize/373x/-/format/webp/24.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6566-3936-4465-a437-643037323737/-/resize/373x/-/format/webp/25.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3839-6235-4633-b664-626434316263/-/resize/373x/-/format/webp/28.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3166-3335-4135-b431-636263336331/-/resize/373x/-/format/webp/29.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6565-3435-4238-b464-343430393862/-/resize/373x/-/format/webp/32.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6665-6563-4532-a663-326334373463/-/resize/373x/-/format/webp/30.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6566-3263-4138-b561-626436626362/-/resize/373x/-/format/webp/31.jpg.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3164-6130-4534-b465-663033653136/-/resize/373x/-/format/webp/34.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6362-6235-4233-b566-616666643662/-/resize/373x/-/format/webp/33.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3762-6565-4134-b863-303662633265/-/resize/373x/-/format/webp/35.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3031-3034-4864-b538-643837313165/-/resize/447x/-/format/webp/23.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3736-3034-4538-b534-633432336265/-/resize/447x/-/format/webp/26.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3063-6663-4933-b562-626335316235/-/resize/447x/-/format/webp/27.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3439-6337-4466-a230-663839616531/-/format/webp/image.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3031-3862-4261-b362-353336356636/-/format/webp/image.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6433-3339-4534-a533-346331613136/-/format/webp/image.png.webp" alt="Грамота 3 курс" loading="lazy"></div>
+                <button class="carousel-button next" onclick="moveCarousel(this, 1)">→</button>
+            </div>
+        </div>
+        <div class="achievement-group">
+            <h3>4 курс</h3>
+            <div class="carousel" data-course="4">
+                <button class="carousel-button prev" onclick="moveCarousel(this, -1)">←</button>
+                <div class="carousel-item left"><img src="https://optim.tildacdn.pub/tild6662-3735-4262-b137-373435386332/-/format/webp/image.png.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <div class="carousel-item center"><img src="https://optim.tildacdn.pub/tild3134-6661-4032-b939-306165356264/-/format/webp/image.png.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <div class="carousel-item right"><img src="https://optim.tildacdn.pub/tild3033-3964-4439-b435-383634656634/-/format/webp/image.png.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6266-6236-4261-b334-353465346437/-/resize/373x/-/format/webp/photo_2025-04-24_09-.jpg.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6665-6137-4162-a162-663339306130/-/resize/373x/-/format/webp/photo_2025-04-24_09-.jpg.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3562-6662-4436-b363-303037613266/-/resize/447x/-/format/webp/photo_2025-04-24_09-.jpg.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3061-6535-4165-b638-633361636333/-/resize/447x/-/format/webp/photo_2025-04-24_09-.jpg.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3335-6365-4033-b535-633237653537/-/resize/447x/-/format/webp/photo_2025-04-24_09-.jpg.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6237-6338-4837-a635-396365646335/-/resize/447x/-/format/webp/photo_2025-04-24_09-.jpg.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3935-6233-4434-b936-636235336232/-/resize/447x/-/format/webp/photo_2025-04-24_09-.jpg.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3466-3539-4662-b862-376665666231/-/resize/447x/-/format/webp/photo_2024-11-11_12-.jpg.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild3939-3265-4630-b434-333838326165/-/resize/373x/-/format/webp/photo_2024-11-11_12-.jpg.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <div class="carousel-item" style="display: none;"><img src="https://optim.tildacdn.pub/tild6362-6331-4131-b666-303365393330/-/resize/373x/-/format/webp/photo_2024-11-11_12-.jpg.webp" alt="Грамота 4 курс" loading="lazy"></div>
+                <button class="carousel-button next" onclick="moveCarousel(this, 1)">→</button>
+            </div>
+        </div>
+    </section>
+    <section id="contact" class="section contact">
+        <h2>Контакты</h2>
+        <p>Телефон: <a href="tel:+79248432727">+7 (924) 843-27-27</a><br>
+           Город: Благовещенск<br>
+           Почта: <a href="mailto:denispustovoichenko@yandex.ru">denispustovoichenko@yandex.ru</a></p>
+    </section>
+    <footer>
+        <p>© 2025 Пустовойченко Денис. Все права защищены.</p>
+    </footer>
+    <button class="scroll-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</button>
+    <div class="modal" id="imageModal">
+        <span class="modal-close">×</span>
+        <img id="modalImage" src="" alt="Полное изображение">
+    </div>
+    <script>
+        const scrollTopBtn = document.querySelector('.scroll-top');
+        window.addEventListener('scroll', () => {
+            scrollTopBtn.style.display = window.scrollY > 300 ? 'block' : 'none';
+        });
+
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalClose = document.querySelector('.modal-close');
+
+        // Увеличение проектов при клике
+        document.querySelectorAll('.project img').forEach(img => {
+            img.addEventListener('click', () => {
+                modalImage.src = img.src;
+                modal.style.display = 'flex';
+            });
+        });
+
+        function moveCarousel(button, direction) {
+            const carousel = button.closest('.carousel');
+            const items = carousel.querySelectorAll('.carousel-item');
+            let currentIndex = Array.from(items).findIndex(item => item.classList.contains('center'));
+
+            // Скрыть все элементы
+            items.forEach(item => {
+                item.classList.remove('center', 'left', 'right');
+                item.style.display = 'none';
+            });
+
+            // Вычислить новый индекс
+            const newIndex = (currentIndex + direction + items.length) % items.length;
+            const prevIndex = (newIndex - 1 + items.length) % items.length;
+            const nextIndex = (newIndex + 1) % items.length;
+
+            // Назначить классы и показать элементы
+            items[newIndex].classList.add('center');
+            items[newIndex].style.display = 'block';
+            items[prevIndex].classList.add('left');
+            items[prevIndex].style.display = 'block';
+            items[nextIndex].classList.add('right');
+            items[nextIndex].style.display = 'block';
+
+            // Обновить обработчик клика для новой центральной грамоты
+            items[newIndex].onclick = () => {
+                modalImage.src = items[newIndex].querySelector('img').src;
+                modal.style.display = 'flex';
+            };
+        }
+
+        // Инициализация каруселей
+        document.querySelectorAll('.carousel').forEach(carousel => {
+            const items = carousel.querySelectorAll('.carousel-item');
+            items.forEach((item, index) => {
+                if (item.classList.contains('center')) {
+                    item.onclick = () => {
+                        modalImage.src = item.querySelector('img').src;
+                        modal.style.display = 'flex';
+                    };
+                }
+            });
+        });
+
+        modalClose.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
